@@ -40,7 +40,7 @@ npm install
 npm run dev
 ```
 
-git 
+
 ## Project Status
 
 Currently under development. Features will be implemented incrementally.
