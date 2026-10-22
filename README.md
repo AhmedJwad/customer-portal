@@ -34,14 +34,13 @@ This project is a practical demonstration of frontend development skills, focusi
 Clone the repository and navigate to the project directory:
 
 ```bash
-git clone YOUR_GITHUB_REPOSITORY_URL
+git clone https://github.com/AhmedJwad/customer-portal.git
 cd customer-portal
 npm install
 npm run dev
 ```
 
-Replace `YOUR_GITHUB_REPOSITORY_URL` with the actual repository URL after publishing the project.
-
+git 
 ## Project Status
 
 Currently under development. Features will be implemented incrementally.
