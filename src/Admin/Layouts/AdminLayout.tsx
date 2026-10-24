@@ -1,6 +1,6 @@
 import { Box, Toolbar, useMediaQuery, useTheme } from "@mui/material"
 import Header from "../Components/Header";
-
+import Sidebar from "../Components/Sidebar";
 import { Outlet } from "react-router-dom";
 import { useEffect, useState } from "react";
 
@@ -18,7 +18,8 @@ const AdminLayout=()=> {
     return (
         <Box sx={{ display: "flex" }}>           
             <Header onMenuClick={handleToggleSidebar} sidebarOpen={open} />
-            
+            <Sidebar open={open} onClose={() => setOpen(false)} />
+
             <Box component="main" sx={{ flexGrow: 1, minWidth: 0, p: 3 }}>               
                 <Toolbar />
                <Outlet/>
