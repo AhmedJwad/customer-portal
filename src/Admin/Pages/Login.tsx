@@ -219,7 +219,7 @@ const Login = () => {
             <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 0.5 }}>
               <Link
                 component={RouterLink}
-                to="/admin/forgot-password"
+                to="/forgot-password"
                 variant="body2"
                 underline="hover"
               >

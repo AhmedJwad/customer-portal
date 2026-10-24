@@ -17,10 +17,12 @@ const accountService = {
   },
 
   register: (user: Record<string, any>) => httpService.post("Accounts/CreateUser", user),
-  recoverPassword: (email: string) => httpService.post("Accounts/RecoverPassword", { email }),
-  resetPassword: (data: Record<string, any>) => httpService.post("Accounts/ResetPassword", data),
   resendConfirmation: (email: string) => httpService.post("Accounts/ResedToken", { email }),
- changePassword: (currentPassword: string, newPassword: string, confirm: string) =>
+  confirmEmail: (userId: string, token: string) =>
+  httpService.get("Accounts/ConfirmEmail", { userId, token }),
+  recoverPassword: (email: string) => httpService.post("Accounts/RecoverPassword", { email }),
+  resetPassword: (data: Record<string, any>) => httpService.post("Accounts/ResetPassword", data),  
+  changePassword: (currentPassword: string, newPassword: string, confirm: string) =>
   httpService.post("Accounts/changePassword", {
     currentPassword,
     newPassword,
@@ -33,5 +35,6 @@ updateProfile: async (body: Record<string, any>) => {
   return result;
 },
 };
+
 
 export default accountService;

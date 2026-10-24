@@ -1,21 +1,31 @@
 import { useEffect, useState, type ChangeEvent, type FormEvent } from "react";
 import { Alert, Avatar, Box, Button, CircularProgress, Paper, TextField, Typography } from "@mui/material";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
+import { useNavigate } from "react-router-dom";
 import accountService from "../../../services/accountService";
 import { fileUrl } from "../../../config/urls";
-import { useNavigate } from "react-router-dom";
+import CountrySelect from "../../Components/CountrySelect"
+import { DEFAULT_COUNTRY_CODE } from "../../../utils/countries";
+
 const MAX_SIZE = 2 * 1024 * 1024; // 2MB
 
 const Profile = () => {
   const [profile, setProfile] = useState<Record<string, any> | null>(null);
-  const [form, setForm] = useState({ firstName: "", lastName: "", phoneNumber: "", address: "" });
-  const [newPhoto, setNewPhoto] = useState<string | null>(null); // base64 فقط
+  const [form, setForm] = useState({
+    firstName: "",
+    lastName: "",
+    phoneNumber: "",
+    address: "",
+    countryCode: DEFAULT_COUNTRY_CODE,
+  });
+  const [newPhoto, setNewPhoto] = useState<string | null>(null);
   const [preview, setPreview] = useState<string | undefined>();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const navigate = useNavigate();
+
   const load = async () => {
     const result = await accountService.getProfile();
     if (result.error || !result.response) {
@@ -28,17 +38,19 @@ const Profile = () => {
         lastName: p.lastName ?? "",
         phoneNumber: p.phoneNumber ?? "",
         address: p.address ?? "",
+        countryCode: p.countryCode || DEFAULT_COUNTRY_CODE,
       });
     }
     setLoading(false);
   };
+
   const goBack = () => {
-  if (window.history.state?.idx > 0) {
-    navigate(-1);                     
-  } else {
-    navigate("/admin", { replace: true }); 
-  }
-};
+    if (window.history.state?.idx > 0) {
+      navigate(-1);
+    } else {
+      navigate("/admin", { replace: true });
+    }
+  };
 
   useEffect(() => {
     load();
@@ -64,7 +76,7 @@ const Profile = () => {
     reader.onload = () => {
       const dataUrl = reader.result as string;
       setPreview(dataUrl);
-      setNewPhoto(dataUrl.split(",")[1]); 
+      setNewPhoto(dataUrl.split(",")[1]);
       setError("");
     };
     reader.readAsDataURL(file);
@@ -79,9 +91,14 @@ const Profile = () => {
     setSaving(true);
 
     const result = await accountService.updateProfile({
-      ...profile,
-      ...form,
-      photo: newPhoto ?? "", 
+      email: profile.email,
+      userName: profile.userName,
+      countryCode: form.countryCode,
+      phoneNumber: form.phoneNumber,
+      firstName: form.firstName,
+      lastName: form.lastName,
+      address: form.address,
+      photo: newPhoto ?? "",
     });
 
     setSaving(false);
@@ -94,7 +111,7 @@ const Profile = () => {
     setSuccess("Profile updated successfully.");
     setNewPhoto(null);
     setPreview(undefined);
-    setTimeout(goBack, 1200); 
+    setTimeout(goBack, 1200);
   };
 
   if (loading) {
@@ -138,15 +155,29 @@ const Profile = () => {
               helperText="Email cannot be changed"
               sx={{ gridColumn: { sm: "1 / -1" } }}
             />
-            <TextField label="Phone" value={form.phoneNumber} onChange={setField("phoneNumber")} />
-            <TextField label="Address" value={form.address} onChange={setField("address")} />
+
+            <Box sx={{ display: "flex", gap: 1.5, gridColumn: { sm: "1 / -1" } }}>
+              <CountrySelect
+                value={form.countryCode}
+                onChange={(code) => setForm((f) => ({ ...f, countryCode: code }))}
+                sx={{ width: { xs: 140, sm: 170 }, flexShrink: 0 }}
+              />
+              <TextField label="Phone" fullWidth value={form.phoneNumber} onChange={setField("phoneNumber")} />
+            </Box>
+
+            <TextField
+              label="Address"
+              value={form.address}
+              onChange={setField("address")}
+              sx={{ gridColumn: { sm: "1 / -1" } }}
+            />
           </Box>
 
           <Button
             type="submit"
             variant="contained"
             fullWidth
-            disabled={saving || !form.firstName || !form.lastName}
+            disabled={saving || !!success || !form.firstName || !form.lastName}
             sx={{
               mt: 3,
               minHeight: 48,

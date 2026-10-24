@@ -27,6 +27,8 @@ import SearchIcon from "@mui/icons-material/Search";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import DashboardCustomizeIcon from "@mui/icons-material/DashboardCustomize";
+import { useLocation, useNavigate } from "react-router-dom";
+import HomeIcon from "@mui/icons-material/Home";
 
 type MenuItem = {
     text: string;
@@ -52,6 +54,8 @@ type SidebarProps = {
 };
 
 const Sidebar = ({ open, onClose }: SidebarProps) => {
+    const navigate = useNavigate();
+    const { pathname } = useLocation();
     const [dashboardOpen, setDashboardOpen] = useState<boolean>(true);
     const [selected, setSelected] = useState<string>("Dashboclsard v1");
 
@@ -148,7 +152,11 @@ const Sidebar = ({ open, onClose }: SidebarProps) => {
             )}
 
             <Box sx={{ overflow: "auto" }}>
-                <List component="nav" disablePadding>                 
+                <List component="nav" disablePadding>     
+                     {renderMenuButton(<HomeIcon />, "Home", pathname === "/admin", () => {
+                        navigate("/admin");
+                        if (isMobile) onClose();
+                    })}            
                     {collapsed ? (
                         <Tooltip title="Dashboard" placement="right">
                             <ListItemButton sx={collapsedButtonSx}>
