@@ -8,7 +8,8 @@ import MarkEmailUnreadIcon from "@mui/icons-material/MarkEmailUnread";
 import LockPersonIcon from "@mui/icons-material/LockPerson";
 import { Bar, BarChart, CartesianGrid, Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import dashboardService, { type UserRow } from "../../../services/dashboardService";
-
+import { useAuth } from "../../../context/AuthContext";
+import UserDashboard from "./UserDashboard";
 
 const isAdmin = (t: string | number) => t === "Admin" || t === 0;
 
@@ -32,7 +33,7 @@ const ChartCard = ({ title, children }: { title: string; children: ReactNode }) 
   </Paper>
 );
 
-const Dashboard = () => {
+const AdminStats = () => {
   const [users, setUsers] = useState<UserRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -123,6 +124,11 @@ const Dashboard = () => {
       </Box>
     </Box>
   );
+};
+
+const Dashboard = () => {
+  const { user } = useAuth();
+  return user?.role === "Admin" ? <AdminStats /> : <UserDashboard />;
 };
 
 export default Dashboard;

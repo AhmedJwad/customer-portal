@@ -159,13 +159,13 @@ const Header = ({ onMenuClick, sidebarOpen = true }: HeaderProps) => {
 
                     <Divider />
 
-                    <MenuItem onClick={() => go("/admin/change-password")} sx={{ py: 1.2 }}>
+                    <MenuItem onClick={() => go("/change-password")} sx={{ py: 1.2 }}>
                         <ListItemIcon>
                             <LockReset fontSize="small" />
                         </ListItemIcon>
                         Change password
                     </MenuItem>
-                    <MenuItem onClick={() => go("/admin/profile")} sx={{ py: 1.2 }}>
+                    <MenuItem onClick={() => go("/profile")} sx={{ py: 1.2 }}>
                         <ListItemIcon>
                             <Person  fontSize="small" />
                         </ListItemIcon>

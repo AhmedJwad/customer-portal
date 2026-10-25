@@ -34,6 +34,7 @@ updateProfile: async (body: Record<string, any>) => {
   if (!result.error && result.response) tokenStorage.set(result.response);
   return result;
 },
+createAdmin: (user: Record<string, any>) => httpService.post("Accounts/CreateAdmin", user),
 };
 
 
