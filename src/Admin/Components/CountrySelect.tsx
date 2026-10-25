@@ -2,7 +2,7 @@ import { Autocomplete, Box, TextField } from "@mui/material";
 import { countries, findByCode, type Country } from "../../utils/countries";
 
 type Props = {
-  value: string; // رمز الاتصال مثل +964
+  value: string; 
   onChange: (code: string) => void;
   sx?: object;
 };

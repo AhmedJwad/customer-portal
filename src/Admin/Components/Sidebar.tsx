@@ -34,17 +34,14 @@ import { useAuth } from "../../context/AuthContext";
 type NavItem = {
     text: string;
     icon: ReactNode;
-    path?: string;       // بدون path = صفحة غير جاهزة بعد (لا تنتقل)
+    path?: string;       
     adminOnly?: boolean;
 };
 
-// الترتيب هنا هو ترتيب الظهور بعد Home
+
 const menuItems: NavItem[] = [
     { text: "Users", icon: <PeopleIcon />, path: "/admin/users", adminOnly: true },
-    { text: "Stores", icon: <StoreIcon />, adminOnly: true },
-    { text: "Categories", icon: <CategoryIcon />, adminOnly: true },
-    { text: "Products", icon: <InventoryIcon />, adminOnly: true },
-    { text: "Orders", icon: <ShoppingCartIcon />, adminOnly: true },
+   
     { text: "Settings", icon: <SettingsIcon />, adminOnly: true },
 ];
 
@@ -180,7 +177,6 @@ const Sidebar = ({ open, onClose }: SidebarProps) => {
                         )
                     )}
 
-                    {/* 3) Dashboard وقوائمه الفرعية (للأدمن فقط) */}
                     {isAdminUser && (
                         <>
                             {collapsed ? (
